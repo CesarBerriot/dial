@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <string>
+#include <vector>
 #include <map>
 #include <list>
 #include <mutex>
