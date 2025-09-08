@@ -19,6 +19,7 @@ namespace dial
 	void form_base::draw()
 	{	if(file_dialog_handler::is_running())
 			file_dialog_handler::draw();
+		draw_contents();
 		spacer();
 		process_log_queue();
 		draw_log_action_bar();

@@ -3,12 +3,15 @@
 #include "forms_registry/forms_registry.hpp"
 
 static void draw_form(dial::form_base * form)
-{	form->draw();
-	form->dial::form_base::draw();
+{	((dial::drawable*)form)->draw();
 }
 
 namespace dial
-{	void app::draw()
+{	app::app()
+	{	forms_registry::get().perform_duplicate_checks();
+	}
+
+	void app::draw()
 	{	forms_registry::instances_t forms = forms_registry::get().get_instances();
 		if(forms.size() > 1)
 		{	if(ImGui::BeginTabBar("Forms"))

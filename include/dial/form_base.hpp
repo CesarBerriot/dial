@@ -52,6 +52,7 @@ namespace dial
 				std::unique_ptr<std::thread> asynchronous_task_thread;
 				bool log_level_visibilities[log_level::MAX];
 		private:
+			void draw() final;
 			void log(log_message);
 			std::string compute_full_log();
 			void copy_log_to_clipboard();
@@ -62,6 +63,7 @@ namespace dial
 			void process_log_queue();
 			void queue_log_message(log_message);
 		protected:
+			virtual void draw_contents() = 0;
 			void log(log_level::type level, std::string message) { log({ level, message }); }
 			void spacer();
 			void text_input(char label[], char_buffer_t);
@@ -75,6 +77,5 @@ namespace dial
 			form_base();
 			~form_base() override {}
 			virtual std::string get_name() = 0;
-			void draw() override;
 	};
 }

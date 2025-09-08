@@ -12,6 +12,7 @@ namespace dial
 			instances_t instances;
 		public:
 			void register_instance(form_base * instance) { instances.push_back(instance); }
+			void perform_duplicate_checks();
 			instances_t const & get_instances() { return instances; }
 	};
 }
