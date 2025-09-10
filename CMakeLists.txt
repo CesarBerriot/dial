@@ -30,6 +30,7 @@ block()
   fetch_github_content(
     make_string CesarBerriot 2.2.3
     hard_assert CesarBerriot 1.2.3
+    pre_main_runner CesarBerriot 1.0.0
     SDL libsdl-org release-3.2.10
     imgui ocornut v1.91.9
     ImGuiFileDialog aiekick v0.6.7
@@ -58,6 +59,8 @@ target_link_libraries(
   SDL3-static
   DearImGui
   ImGuiFileDialog
+  pre_main_runner
+  PRIVATE
   hard_assert
   make_string
 )

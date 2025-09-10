@@ -18,13 +18,16 @@ static SDL_Renderer * renderer;
 SDL_AppResult SDL_AppInit(void**, int, char**)
 {	ImGui::CreateContext();
 
+	extern bool(*dial_internal_entry_point)();
+
 	if
 	(	!SDL_Init(SDL_INIT_VIDEO) ||
 		!(window = SDL_CreateWindow(MODULE_NAME, 600, 400, SDL_WINDOW_RESIZABLE)) ||
 		!(renderer = SDL_CreateRenderer(window, NULL)) ||
 		!SDL_SetRenderVSync(renderer, 1) ||
 		!ImGui_ImplSDL3_InitForSDLRenderer(window, renderer) ||
-		!ImGui_ImplSDLRenderer3_Init(renderer)
+		!ImGui_ImplSDLRenderer3_Init(renderer) ||
+		!(!dial_internal_entry_point || dial_internal_entry_point())
 	)
 		return SDL_APP_FAILURE;
 
@@ -60,7 +63,14 @@ SDL_AppResult SDL_AppEvent(void*, SDL_Event * event)
 }
 
 void SDL_AppQuit(void*, SDL_AppResult app_result)
-{	switch(app_result)
+{	extern bool(*dial_internal_exit_point)();
+
+	if(dial_internal_exit_point && !dial_internal_exit_point())
+	{	fputs("DIAL user exit point failed.", stderr);
+		return;
+	}
+
+	switch(app_result)
 	{	case SDL_APP_SUCCESS:
 			ImGui_ImplSDLRenderer3_Shutdown();
 			ImGui_ImplSDL3_Shutdown();
