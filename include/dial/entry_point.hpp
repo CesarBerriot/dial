@@ -6,11 +6,11 @@
  * Usage :
  * DIAL_ENTRY_POINT
  * (	FUNCTION_POINTER_HERE
- * );
+ * )
  *
  * DIAL_ENTRY_POINT
  * (	[]{ return true; }
- * );
+ * )
  */
 
 #define DIAL_ENTRY_POINT(...)							\
