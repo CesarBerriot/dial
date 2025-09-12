@@ -64,6 +64,7 @@ namespace dial
 			void queue_log_message(log_message);
 		protected:
 			virtual void draw_contents() = 0;
+			virtual bool should_draw_log() { return true; }
 			void log(log_level::type level, std::string message) { log({ level, message }); }
 			void spacer();
 			void text_input(char label[], char_buffer_t);

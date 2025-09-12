@@ -20,10 +20,12 @@ namespace dial
 	{	if(file_dialog_handler::is_running())
 			file_dialog_handler::draw();
 		draw_contents();
-		spacer();
 		process_log_queue();
-		draw_log_action_bar();
-		draw_log_content();
+		if(should_draw_log())
+		{	spacer();
+			draw_log_action_bar();
+			draw_log_content();
+		}
 	}
 
 	void form_base::log(log_message message)
