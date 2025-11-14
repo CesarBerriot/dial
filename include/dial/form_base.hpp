@@ -46,7 +46,7 @@ namespace dial
 			bool
 				auto_scroll_log = true,
 				apply_auto_scroll_next_frame,
-				running_asynchronous_task;
+				running_asynchronous_task = false;
 				std::list<log_message> log_queue;
 				std::mutex log_queue_mutex;
 				std::unique_ptr<std::thread> asynchronous_task_thread;
