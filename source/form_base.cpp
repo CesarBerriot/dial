@@ -213,7 +213,9 @@ namespace dial
 	}
 
 	bool form_base::is_asynchronous_task_thread()
-	{	return std::this_thread::get_id() == asynchronous_task_thread->get_id();
+	{	return
+			is_running_asynchronous_task() &&
+			std::this_thread::get_id() == asynchronous_task_thread->get_id();
 	}
 
 	void form_base::run_asynchronous_task(std::function<void()> behavior)
