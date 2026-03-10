@@ -1,4 +1,5 @@
 #include "forms_registry.hpp"
+#include <algorithm>
 #include <hard_assert.hpp>
 #include <make_string.hpp>
 
