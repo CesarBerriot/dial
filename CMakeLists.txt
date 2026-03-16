@@ -28,7 +28,7 @@ block()
   set(SDL_SHARED OFF)
   set(SDL_STATIC ON)
   fetch_github_content(
-    make_string CesarBerriot 2.2.3
+    make_string CesarBerriot 2.2.4
     hard_assert CesarBerriot 1.2.3
     pre_main_runner CesarBerriot 1.0.1
     SDL libsdl-org release-3.2.10
