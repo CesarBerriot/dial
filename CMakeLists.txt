@@ -29,7 +29,7 @@ block()
   set(SDL_STATIC ON)
   fetch_github_content(
     make_string CesarBerriot 2.2.4
-    hard_assert CesarBerriot 1.2.3
+    hard_assert CesarBerriot 1.2.4
     pre_main_runner CesarBerriot 1.0.1
     SDL libsdl-org release-3.2.10
     imgui ocornut v1.91.9
@@ -64,7 +64,7 @@ target_link_libraries(
   hard_assert
   make_string
 )
-target_compile_definitions(dial PRIVATE MODULE_NAME="App Base")
+target_compile_definitions(dial PRIVATE MODULE_NAME="DIAL")
 if(MINGW)
   target_link_options(dial PUBLIC -static)
   target_compile_options(dial PUBLIC -Wno-write-strings)
@@ -76,6 +76,39 @@ function(dial_link_target target)
   target_link_libraries(${target} PRIVATE dial)
   get_target_property(dial_source_directory dial SOURCE_DIR)
   target_sources(${target} PRIVATE ${dial_source_directory}/source/main.cpp)
+  if(EMSCRIPTEN)
+    get_target_property(html_output_directory ${target} RUNTIME_OUTPUT_DIRECTORY)
+    if(html_output_directory STREQUAL "html_output_directory-NOTFOUND")
+      get_target_property(html_output_directory ${target} BINARY_DIR)
+    endif()
+    file(WRITE "${html_output_directory}/${target}.html"
+      "                                                                                 \
+      <!DOCTYPE html>                                                                   \
+      <html>                                                                            \
+        <head>                                                                          \
+          <title>${target}</title>                                                      \
+          <style>                                                                       \
+            body {                                                                      \
+              margin: 0;                                                                \
+              overflow: hidden;                                                         \
+            }                                                                           \
+          </style>                                                                      \
+        </head>                                                                         \
+        <body>                                                                          \
+          <canvas id=\"canvas\" oncontextmenu=\"event.preventDefault()\"></canvas>      \
+          <script>                                                                      \
+            window.addEventListener                                                     \
+            ( \"wheel\",                                                                \
+              function(event) { if (event.ctrlKey) event.stopImmediatePropagation(); }, \
+              { capture : true, passive : false }                                       \
+            );                                                                          \
+          </script>                                                                     \
+          <script src=\"${target}.js\"></script>                                        \
+        </body>                                                                         \
+      </html>                                                                           \
+      "
+    )
+  endif()
 endfunction()
 
 if(DIAL_EXAMPLE)

@@ -1,3 +1,6 @@
+#ifdef __EMSCRIPTEN__
+	#include <emscripten.h>
+#endif
 #include <cstdio>
 #include <imgui_impl_sdl3.h>
 #include <imgui_impl_sdlrenderer3.h>
@@ -35,7 +38,16 @@ SDL_AppResult SDL_AppInit(void**, int, char**)
 }
 
 SDL_AppResult SDL_AppIterate(void*)
-{	ImGui_ImplSDLRenderer3_NewFrame();
+{
+	#ifdef __EMSCRIPTEN__
+		SDL_SetWindowSize
+		(	window,
+			emscripten_run_script_int("document.documentElement.clientWidth"),
+			emscripten_run_script_int("document.documentElement.clientHeight")
+		);
+	#endif
+
+	ImGui_ImplSDLRenderer3_NewFrame();
 	ImGui_ImplSDL3_NewFrame();
 	ImGui::NewFrame();
 
